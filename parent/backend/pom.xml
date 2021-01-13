@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cn.ylj</groupId>
-  <artifactId>service_provider</artifactId>
+  <artifactId>backend</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>service_provider</name>
+  <name>backend</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -29,7 +29,7 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <configuration>
           <!-- 指定端口 -->
-          <port>81</port>
+          <port>82</port>
           <!-- 请求路径 -->
           <path>/</path>
         </configuration>
