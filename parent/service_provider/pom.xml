@@ -8,7 +8,7 @@
   <artifactId>service_provider</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
-
+  log4j.properties
   <name>service_provider</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
