@@ -41,6 +41,16 @@ public class CheckitemController {
         }
     }
 
+    @RequestMapping("/update")
+    public Result update(@RequestBody Checkitem checkitem){
+        try{
+            return checkItemService.updateById(checkitem);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false, MessageConstant.EDIT_CHECKITEM_FAIL);
+        }
+    }
+
     @RequestMapping("/findById")
     public Result findById(@RequestParam("itemId")Integer itemId){
         try{

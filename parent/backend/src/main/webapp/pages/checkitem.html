@@ -237,8 +237,34 @@
                 this.findPage();
             },
             methods: {
-                //编辑
+                //编辑提交
                 handleEdit() {
+                    //校验表单，通过则发送请求，不通过不发送
+                    var _this = this;
+                    this.$refs['dataEditForm'].validate(
+                        valid => {
+                            if (valid){
+                                 //校验通过，发请求
+                                axios.post("/checkitem/update.do",_this.formData)
+                                    .then(res => {
+                                        if (res.data.flag){
+                                            //成功提示
+                                            _this.$message.success(res.data.message);
+                                            //编辑模态窗口隐藏
+                                            _this.dialogFormVisible4Edit = false;
+                                        } else {
+                                            _this.$message.error(res.data.message);
+                                        }
+                                    }).finally(()=>{
+                                        //页面刷新
+                                        this.findPage();//当前的分页信息在全局变量pagination中,所以会自动取当页的数据
+                                    })
+                            } else {
+                                //校验失败重新校验
+                                _this.$message.error("校验失败，请检查");
+                            }
+                        }
+                    )
                 },
                 //添加
                 handleAdd () {

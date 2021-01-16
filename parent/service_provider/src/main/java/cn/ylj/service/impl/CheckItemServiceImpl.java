@@ -57,4 +57,9 @@ public class CheckItemServiceImpl implements ICheckItemService {
         Checkitem checkitem = checkitemMapper.selectByPrimaryKey(itemId);
         return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkitem);
     }
+
+    public Result updateById(Checkitem checkitem) {
+        int r = checkitemMapper.updateByPrimaryKeySelective(checkitem);
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS, r);
+    }
 }

@@ -14,4 +14,6 @@ public interface ICheckItemService {
     PageResult pageQuery(QueryPageBean pb);
 
     Result findById(Integer itemId);
+
+    Result updateById(Checkitem checkitem);
 }
