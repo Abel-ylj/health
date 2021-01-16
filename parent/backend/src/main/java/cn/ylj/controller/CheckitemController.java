@@ -7,6 +7,7 @@ import cn.ylj.model.QueryPageBean;
 import cn.ylj.model.Result;
 import cn.ylj.service.ICheckItemService;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,18 @@ public class CheckitemController {
         }
         return new Result(true, MessageConstant.ADD_CHECKGROUP_SUCCESS);
     }
+
+    @RequestMapping("/{itemId}/delete")
+    public Result delete(@PathVariable("itemId")Integer itemId){
+        try{
+            checkItemService.deleteById(itemId);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new Result(true, MessageConstant.DELETE_CHECKITEM_FAIL);
+        }
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
+
 
     @RequestMapping("/pageQuery")
     public PageResult pageQuery(@RequestBody QueryPageBean queryPageBean){

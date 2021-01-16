@@ -287,10 +287,10 @@
                         res => {
                             _this.pagination.total = res.data.total;
                             _this.dataList = res.data.rows;
-                            _this.$message({
-                                message:"获取分页成功",
-                                type:"success"
-                            })
+                            // _this.$message({
+                            //     message:"获取分页成功",
+                            //     type:"success"
+                            // })
                         }
                     );
                 },
@@ -323,8 +323,35 @@
                         }
                     );
                 },
-                // 删除
+                // 删除检查项
                 handleDelete(row) {
+                    console.log(row);
+                    var _this = this;
+                    //弹出确认删除弹框，用户点击确认后发送请求
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("/checkitem/"+row.id+"/delete.do",{}).then(
+                            res => {
+                                if (res.flag){
+                                    _this.pagination.total = res.data.total;
+                                    _this.dataList = res.data.rows;
+                                    _this.$message.success(res.data.message);
+                                } else {
+                                    _this.$message.error(res.data.message);
+                                }
+                                //刷新页面
+                                this.findPage();
+                            }
+                        )
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
                 },
                 // 重置表单
                 resetForm(){

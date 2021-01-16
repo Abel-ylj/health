@@ -27,6 +27,10 @@ public class CheckItemServiceImpl implements ICheckItemService {
         checkitemMapper.insert(checkitem);
     }
 
+    public void deleteById(Integer id) {
+        checkitemMapper.deleteByPrimaryKey(id);
+    }
+
     public PageResult pageQuery(QueryPageBean pb) {
         PageHelper.startPage(pb.getCurrentPage(), pb.getPageSize());
         //1. 方式一： 手动分装Pagehelper组件的Page对象(原理就是从threadlocal中去拿total，currentPage，pageSize值)
