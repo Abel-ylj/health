@@ -52,4 +52,9 @@ public class CheckItemServiceImpl implements ICheckItemService {
         Page<Checkitem> pg = checkitemMapper.findPageByCondition(pb.getQueryString());
         return new PageResult(pg.getTotal(), pg.getResult());
     }
+
+    public Result findById(Integer itemId) {
+        Checkitem checkitem = checkitemMapper.selectByPrimaryKey(itemId);
+        return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkitem);
+    }
 }

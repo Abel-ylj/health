@@ -12,4 +12,6 @@ public interface ICheckItemService {
     Result deleteById(Integer id);
 
     PageResult pageQuery(QueryPageBean pb);
+
+    Result findById(Integer itemId);
 }

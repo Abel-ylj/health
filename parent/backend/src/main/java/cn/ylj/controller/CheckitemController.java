@@ -7,10 +7,9 @@ import cn.ylj.model.QueryPageBean;
 import cn.ylj.model.Result;
 import cn.ylj.service.ICheckItemService;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.InetAddress;
 
 /**
  * @author : yanglujian
@@ -41,6 +40,16 @@ public class CheckitemController {
         } catch (Exception e){
             e.printStackTrace();
             return new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
+        }
+    }
+
+    @RequestMapping("/findById")
+    public Result findById(@RequestParam("itemId")Integer itemId){
+        try{
+            return checkItemService.findById(itemId);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
         }
     }
 
