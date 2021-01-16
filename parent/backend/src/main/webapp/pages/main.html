@@ -26,6 +26,7 @@
 <body class="hold-transition skin-purple sidebar-mini">
     <div id="app">
         <el-container>
+            <!--    头部横栏        -->
             <el-header  class="main-header" style="height:70px;">
                 <nav class="navbar navbar-static-top" :class=''>
                     <!-- Logo -->
@@ -51,7 +52,9 @@
                     </div>
                 </nav>
             </el-header>
+            <!--    下方容器        -->
             <el-container>
+            <!--    左侧边栏(菜单栏)     -->
                 <el-aside width="200px">
                     <el-menu>
                         <el-submenu v-for="menu in menuList" :index="menu.path">
@@ -67,7 +70,9 @@
                         </el-submenu>
                     </el-menu>
                 </el-aside>
+                <!--     右侧容器       -->
                 <el-container>
+                    <!--     预约设置html     -->
                     <iframe name="right" class="el-main" src="ordersetting.html" width="100%" height="580px" frameborder="0"></iframe>
                 </el-container>
             </el-container>
