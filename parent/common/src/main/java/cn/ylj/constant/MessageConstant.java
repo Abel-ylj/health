@@ -14,6 +14,8 @@ public class MessageConstant {
     public static final String QUERY_CHECKITEM_SUCCESS = "查询检查项成功";
     public static final String QUERY_CHECKITEM_FAIL = "查询检查项失败";
 
+    public static final String DELETE_CHECKITEM_MSG = "检查项已被检查组依赖";
+
     //检查组CRUD消息
     public static final String ADD_CHECKGROUP_FAIL = "新增检查组失败";
     public static final String ADD_CHECKGROUP_SUCCESS = "新增检查组成功";

@@ -37,12 +37,11 @@ public class CheckitemController {
     @RequestMapping("/{itemId}/delete")
     public Result delete(@PathVariable("itemId")Integer itemId){
         try{
-            checkItemService.deleteById(itemId);
+            return checkItemService.deleteById(itemId);
         } catch (Exception e){
             e.printStackTrace();
-            return new Result(true, MessageConstant.DELETE_CHECKITEM_FAIL);
+            return new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
         }
-        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
 
 

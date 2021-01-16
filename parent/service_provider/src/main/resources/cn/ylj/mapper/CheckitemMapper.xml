@@ -143,4 +143,7 @@
       </if>
     </where>
   </select>
+  <select id="selectCheckgroupCntsByItemId" resultType="java.lang.Integer">
+    select count(1) from t_checkgroup_checkitem where checkitem_id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

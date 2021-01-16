@@ -1,9 +1,11 @@
 package cn.ylj.service.impl;
 
+import cn.ylj.constant.MessageConstant;
 import cn.ylj.entity.Checkitem;
 import cn.ylj.mapper.CheckitemMapper;
 import cn.ylj.model.PageResult;
 import cn.ylj.model.QueryPageBean;
+import cn.ylj.model.Result;
 import cn.ylj.service.ICheckItemService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -27,8 +29,17 @@ public class CheckItemServiceImpl implements ICheckItemService {
         checkitemMapper.insert(checkitem);
     }
 
-    public void deleteById(Integer id) {
-        checkitemMapper.deleteByPrimaryKey(id);
+    public Result deleteById(Integer id) {
+        //1. 查询被删除项是否被其他模块依赖(由业务可知，checkitem会被checkgroup检查组依赖)
+        Integer cnt = checkitemMapper.selectCheckgroupCntsByItemId(id);
+        //2. 若已经被依赖就提示删除失败
+        if (cnt > 0){
+            return new Result(false, MessageConstant.DELETE_CHECKITEM_MSG);
+        } else {
+            //3. 未被依赖就执行删除
+            checkitemMapper.deleteByPrimaryKey(id);
+        }
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
 
     public PageResult pageQuery(QueryPageBean pb) {

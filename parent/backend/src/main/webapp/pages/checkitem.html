@@ -242,10 +242,7 @@
                 },
                 //添加
                 handleAdd () {
-                    alert("very good");
                     var _this = this;
-                     //1. 弹出警告窗口
-                    _this.$message.error("hahah");
                     // //校验表单数据是否符合规则
                     this.$refs['dataAddForm'].validate(valid =>{
                         if (valid){
@@ -259,7 +256,7 @@
                                         //1. 关闭窗口
                                         _this.dialogFormVisible = false;
                                         //2. 刷新数据
-                                        // _this.findPage();
+                                        _this.findPage();
                                         //3. 弹窗提示成功
                                         _this.$message({
                                             message:res.data.message,

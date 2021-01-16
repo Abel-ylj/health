@@ -22,4 +22,6 @@ public interface CheckitemMapper {
     List<Checkitem> selectAll();
 
     Page<Checkitem> findPageByCondition(@Param("condition") String condition);
+
+    Integer selectCheckgroupCntsByItemId(@Param("id") Integer id);
 }
