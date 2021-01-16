@@ -223,7 +223,7 @@
 					  queryString:null//查询条件
 				},
 				dataList: [],//当前页要展示的分页列表数据
-                formData: {},//表单数据
+                formData: {},//表单数据, 编辑模态窗口的数据
                 dialogFormVisible: false,//增加表单是否可见
                 dialogFormVisible4Edit:false,//编辑表单是否可见
                 rules: {//校验规则,在空间失去焦点时触发blur，校验规则为required必填
@@ -291,9 +291,6 @@
                         }
                     );
                 },
-                // 重置表单
-                resetForm() {
-                },
                 // 弹出添加窗口
                 handleCreate() {
                     //弹出新增检查项
@@ -301,8 +298,19 @@
                     //重置新增检查项的表单数据 为空，否则会记住上次的数据
                     this.resetForm();
                 },
-                // 弹出编辑窗口
+                // 弹出编辑窗口，编辑页的模态窗口显示
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit = true;
+                    var _this = this;
+                    //当前选择行数据回显
+                    axios.post("/checkitem/findById.do?itemId=" + row.id)
+                    .then(res =>{
+                        if (res.data.flag){
+                            _this.formData = res.data.data;
+                        } else {
+                            console.log("回显数据请求失败");
+                        }
+                    });
                 },
                 // 分页插件切换页码 事件处理器
                 handleCurrentChange(currentPage) {
@@ -350,7 +358,7 @@
                         });
                     });
                 },
-                // 重置表单
+                // 重置编辑模态的表单
                 resetForm(){
                     this.formData = {};
                 }

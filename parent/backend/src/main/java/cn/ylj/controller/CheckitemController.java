@@ -9,8 +9,6 @@ import cn.ylj.service.ICheckItemService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.InetAddress;
-
 /**
  * @author : yanglujian
  * create at:  2021/1/15  10:19 下午
