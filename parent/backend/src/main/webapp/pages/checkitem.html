@@ -30,6 +30,8 @@
                         <el-button @click="findPage()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
+
+                    <!--     分页数据表格 vue对象中的dataList绑定该表格数据    -->
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                         <el-table-column type="index" align="center" label="序号"></el-table-column>
                         <el-table-column prop="code" label="项目编码" align="center"></el-table-column>
@@ -49,7 +51,7 @@
                         </el-table-column>
                     </el-table>
 
-                    <!--     分页数据显示块         -->
+                    <!--     分页数据表格 下方控制栏     -->
                     <div class="pagination-container">
                         <el-pagination
                             class="pagiantion"
@@ -278,7 +280,19 @@
                 },
                 //分页查询
                 findPage() {
-                    // axios.post("/checkitem/pageQuery.do")
+                    console.info("发送分页请求");
+                    //保存vue对象引用，在axios对象中要使用
+                    var _this = this;
+                    axios.post("/checkitem/pageQuery.do",_this.pagination).then(
+                        res => {
+                            _this.pagination.total = res.data.total;
+                            _this.dataList = res.data.rows;
+                            _this.$message({
+                                message:"获取分页成功",
+                                type:"success"
+                            })
+                        }
+                    );
                 },
                 // 重置表单
                 resetForm() {
@@ -293,8 +307,21 @@
                 // 弹出编辑窗口
                 handleUpdate(row) {
                 },
-                //切换页码
+                // 分页插件切换页码 事件处理器
                 handleCurrentChange(currentPage) {
+                    //currentPage为用户切换到的目标页码
+                    this.pagination.currentPage = currentPage;
+                    var _this = this;
+                    axios.post("/checkitem/pageQuery.do",_this.pagination).then(
+                        res => {
+                            _this.pagination.total = res.data.total;
+                            _this.dataList = res.data.rows;
+                            _this.$message({
+                                message:"获取分页成功",
+                                type:"success"
+                            });
+                        }
+                    );
                 },
                 // 删除
                 handleDelete(row) {
