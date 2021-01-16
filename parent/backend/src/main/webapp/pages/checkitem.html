@@ -237,40 +237,40 @@
                 //添加
                 handleAdd () {
                     alert("very good");
-                    // //1. 弹出警告窗口
-                    // _this.$message.error("ahahah");
-                    // var _this = this;
+                    var _this = this;
+                     //1. 弹出警告窗口
+                    _this.$message.error("hahah");
                     // //校验表单数据是否符合规则
-                    // this.$refs['dataAddForm'].validate(valid =>{
-                    //     if (valid){
-                    //         console.log(this.formData);
-                    //         //发送ajax请求
-                    //         axios.post("/checkitem/add",this.formData).then(
-                    //             res => {
-                    //                 //后端传出来普通Result对象
-                    //                 if (res.data.flag){
-                    //                     //后端返回200
-                    //                     //1. 关闭窗口
-                    //                     _this.dialogFormVisible = false;
-                    //                     //2. 刷新数据
-                    //                     _this.findPage();
-                    //                     //3. 弹窗提示成功
-                    //                     _this.$message({
-                    //                         message:res.data.message,
-                    //                         type:"success"
-                    //                     })
-                    //                 } else {
-                    //                     //返回非200
-                    //                     _this.$message.error(res.data.message);
-                    //                 }
-                    //             }
-                    //         )
-                    //     } else {
-                    //         console.log("验证失败");
-                    //         //1. 弹出警告窗口
-                    //         _this.$message.error("数据校验失败，请重新输入");
-                    //     }
-                    // });
+                    this.$refs['dataAddForm'].validate(valid =>{
+                        if (valid){
+                            console.log(this.formData);
+                            //发送ajax请求
+                            axios.post("/checkitem/add.do",this.formData).then(
+                                res => {
+                                    //后端传出来普通Result对象
+                                    if (res.data.flag){
+                                        //后端返回200
+                                        //1. 关闭窗口
+                                        _this.dialogFormVisible = false;
+                                        //2. 刷新数据
+                                        // _this.findPage();
+                                        //3. 弹窗提示成功
+                                        _this.$message({
+                                            message:res.data.message,
+                                            type:"success"
+                                        })
+                                    } else {
+                                        //返回非200
+                                        _this.$message.error(res.data.message);
+                                    }
+                                }
+                            )
+                        } else {
+                            console.log("验证失败");
+                            //1. 弹出警告窗口
+                            _this.$message.error("数据校验失败，请重新输入");
+                        }
+                    });
                 },
                 //分页查询
                 findPage() {
