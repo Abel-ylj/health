@@ -135,4 +135,12 @@
   <select id="selectAll" resultType="cn.ylj.entity.Checkitem">
     select * from t_checkitem
   </select>
+  <select id="findPageByCondition" parameterType="string" resultMap="BaseResultMap">
+    select * from t_checkitem
+    <where>
+      <if test="condition != null and condition != ''">
+        code = #{condition} or name = #{condition}
+      </if>
+    </where>
+  </select>
 </mapper>

@@ -12,7 +12,53 @@
 
 
 
-## (二)业务
+## (二)技术选型
+
+### 分页插件
+
+>PageHelper自动适配了页号(前端传过来currentPage=1, pageSize=10。拦截后织入会变成limit 0,10)
+>
+>使用ThreadLocal来存储当前请求的分页请求参数(currentPage, pageSize), 和分页结果参数(total,pages)
+>
+>Page<?> 对象创建时候会去threadlocal中获取分页的相关所有参数。
+
+- PageHelper的Mybatis插件
+
+- 在Mybatis的核心配置文件中注册插件
+
+    ```xml
+    <plugins>
+      <!-- com.github.pagehelper 为 PageHelper 类所在包名 -->
+      <plugin interceptor="com.github.pagehelper.PageHelper">
+        <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL 六种数据库-->
+        <property name="dialect" value="mysql"/>
+      </plugin>
+    </plugins>
+    ```
+
+- 使用
+
+    ```java
+    //方式一(不推荐， 自己创建Page对象，创建时候会自动从threadlocal中拿分页数据)
+    //这一句是将分页参数绑定到ThreadLocal中，将分页参数和当前线程绑定
+    PageHelper.startPage(pb.getCurrentPage(), pb.getPageSize());
+    //执行查询时候，Pagehelper会拦截后动态增强 实际执行的是
+    //1. select count(*) from t_checkitem; 获取total条数，将结果存到threadLocal
+    //2. select * from t_checkitem limit currentPage, pageSize;
+    List<Checkitem> list = checkitemMapper.selectAll();
+    //分装PageHelper中的分页对象,其中的分页相关参数会从threadLocal中获取
+    PageInfo<Checkitem> pi = new PageInfo<Checkitem>(list);
+    
+    //2. 方式二: 自动封装Page对象(原理就是从threadlocal中去拿total，currentPage，pageSize值)
+    Page<Checkitem> pg = checkitemMapper.findPageByCondition(pb.getQueryString());
+    return new PageResult(pg.getTotal(), pg.getResult());
+    ```
+
+    
+
+
+
+## (三)业务
 
 
 

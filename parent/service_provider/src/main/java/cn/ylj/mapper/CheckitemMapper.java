@@ -1,6 +1,8 @@
 package cn.ylj.mapper;
 
 import cn.ylj.entity.Checkitem;
+import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +20,6 @@ public interface CheckitemMapper {
     int updateByPrimaryKey(Checkitem record);
 
     List<Checkitem> selectAll();
+
+    Page<Checkitem> findPageByCondition(@Param("condition") String condition);
 }

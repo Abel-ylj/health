@@ -6,6 +6,7 @@ import cn.ylj.model.PageResult;
 import cn.ylj.model.QueryPageBean;
 import cn.ylj.service.ICheckItemService;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -28,8 +29,12 @@ public class CheckItemServiceImpl implements ICheckItemService {
 
     public PageResult pageQuery(QueryPageBean pb) {
         PageHelper.startPage(pb.getCurrentPage(), pb.getPageSize());
-        List<Checkitem> list = checkitemMapper.selectAll();
-        PageInfo<Checkitem> pi = new PageInfo<Checkitem>(list);
-        return new PageResult(pi.getTotal(), pi.getList());
+        //1. 方式一： 手动分装Pagehelper组件的Page对象(原理就是从threadlocal中去拿total，currentPage，pageSize值)
+//        List<Checkitem> list = checkitemMapper.selectAll();
+//        PageInfo<Checkitem> pi = new PageInfo<Checkitem>(list);
+//        return new PageResult(pi.getTotal(), pi.getList());
+        //2. 方式二: 自动封装
+        Page<Checkitem> pg = checkitemMapper.findPageByCondition(pb.getQueryString());
+        return new PageResult(pg.getTotal(), pg.getResult());
     }
 }
