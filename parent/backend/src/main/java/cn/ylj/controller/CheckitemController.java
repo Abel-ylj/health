@@ -2,6 +2,8 @@ package cn.ylj.controller;
 
 import cn.ylj.constant.MessageConstant;
 import cn.ylj.entity.Checkitem;
+import cn.ylj.model.PageResult;
+import cn.ylj.model.QueryPageBean;
 import cn.ylj.model.Result;
 import cn.ylj.service.ICheckItemService;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -29,5 +31,10 @@ public class CheckitemController {
             return new Result(false, MessageConstant.ADD_CHECKITEM_FAIL);
         }
         return new Result(true, MessageConstant.ADD_CHECKGROUP_SUCCESS);
+    }
+
+    @RequestMapping("/pageQuery")
+    public PageResult pageQuery(@RequestBody QueryPageBean queryPageBean){
+        return checkItemService.pageQuery(queryPageBean);
     }
 }

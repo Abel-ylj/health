@@ -2,6 +2,8 @@ package cn.ylj.mapper;
 
 import cn.ylj.entity.Checkitem;
 
+import java.util.List;
+
 public interface CheckitemMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface CheckitemMapper {
     int updateByPrimaryKeySelective(Checkitem record);
 
     int updateByPrimaryKey(Checkitem record);
+
+    List<Checkitem> selectAll();
 }

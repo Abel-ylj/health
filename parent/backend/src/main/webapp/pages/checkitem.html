@@ -48,6 +48,8 @@
                             </template>
                         </el-table-column>
                     </el-table>
+
+                    <!--     分页数据显示块         -->
                     <div class="pagination-container">
                         <el-pagination
                             class="pagiantion"
@@ -229,6 +231,8 @@
             },
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
+                //vue对象初始化
+                this.findPage();
             },
             methods: {
                 //编辑
@@ -274,6 +278,7 @@
                 },
                 //分页查询
                 findPage() {
+                    // axios.post("/checkitem/pageQuery.do")
                 },
                 // 重置表单
                 resetForm() {
