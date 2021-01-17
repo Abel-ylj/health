@@ -308,16 +308,27 @@
                 },
                 //分页查询
                 findPage() {
+                    var _this = this;
+                    axios.post("/checkgroup/findPage.do",_this.pagination).then(
+                        res => {
+                            _this.dataList = res.data.rows;
+                            _this.pagination.total = res.data.total;
+                        }
+                    )
                 },
                 // 重置表单
                 resetForm() {
                     this.formData = {};
                 },
-                // 弹出添加窗口
+                // 弹出添加窗口，回显checkItem列表
                 handleCreate() {
                     var _this = this;
-                    //重置新增检查项表单
+                    //0.打开新增框时默认在第一个标签，且复选框也重置
+                    _this.activeName="first";
+                    //1.tab1标签页 重置新增检查组表单
                     _this.resetForm();
+                    //2.tab2重置复选框
+                    _this.checkitemIds=[];
                     //新增检查项窗口显示
                     _this.dialogFormVisible = true;
                     //加载所有检查组信息，供检查组选择
@@ -334,9 +345,13 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit = true;
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    var _this = this;
+                    _this.pagination.currentPage = currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {

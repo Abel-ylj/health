@@ -120,4 +120,12 @@
       (#{id,jdbcType=INTEGER}, #{cId,jdbcType=INTEGER})
     </foreach>
   </insert>
+  <select id="findPage" resultType="cn.ylj.entity.Checkgroup">
+    select * from t_checkgroup
+    <where>
+      <if test="queryString != null and queryString != ''">
+        code = #{queryString,jdbcType=VARCHAR} or name = #{queryString,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
 </mapper>

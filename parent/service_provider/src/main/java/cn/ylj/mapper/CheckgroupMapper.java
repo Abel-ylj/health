@@ -3,6 +3,8 @@ package cn.ylj.mapper;
 import cn.ylj.entity.Checkgroup;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface CheckgroupMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -23,4 +25,6 @@ public interface CheckgroupMapper {
      * @param checkitemIds
      */
     void insertRel(@Param("id") Integer id, @Param("checkitemIds") Integer[] checkitemIds);
+
+    List<Checkgroup> findPage(@Param("queryString") String queryString);
 }
