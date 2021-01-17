@@ -66,4 +66,9 @@ public class CheckitemController {
     public PageResult pageQuery(@RequestBody QueryPageBean queryPageBean){
         return checkItemService.pageQuery(queryPageBean);
     }
+
+    @RequestMapping("/findAll")
+    public Result findAll(){
+        return checkItemService.findAll();
+    }
 }

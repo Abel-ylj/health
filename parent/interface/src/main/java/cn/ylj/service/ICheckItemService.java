@@ -16,4 +16,6 @@ public interface ICheckItemService {
     Result findById(Integer itemId);
 
     Result updateById(Checkitem checkitem);
+
+    Result findAll();
 }
