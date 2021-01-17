@@ -97,6 +97,7 @@
                         <el-dialog title="新增检查组" :visible.sync="dialogFormVisible">
                             <template>
                                 <el-tabs v-model="activeName" type="card">
+                                    <!-- 左tab用来展示基本信息表单 -->
                                     <el-tab-pane label="基本信息" name="first">
                                         <el-form label-position="right" label-width="100px">
                                             <el-row>
@@ -143,6 +144,7 @@
                                             </el-row>
                                         </el-form>
                                     </el-tab-pane>
+                                    <!-- 右tab用来展示检查组 和vue对象双向绑定 -->
                                     <el-tab-pane label="检查项信息" name="second">
 									<div class="checkScrol">
                                         <table class="datatable">
@@ -291,7 +293,18 @@
                 },
                 //确定添加处理
                 handleAdd () {
+                    var _this = this;
                     //1. 表单检查，通过就将表单数据 + n个检查组发送
+                    //2. 发送axios请求
+                    axios.post("/checkgroup/add.do?checkitemIds="+this.checkitemIds, this.formData).then(
+                        res => {
+                            if (res.data.flag){
+                                _this.$message.success(res.data.message);
+                            } else {
+                                _this.$message.error(res.data.message);
+                            }
+                        }
+                    )
                 },
                 //分页查询
                 findPage() {

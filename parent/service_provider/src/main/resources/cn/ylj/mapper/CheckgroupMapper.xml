@@ -25,6 +25,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.ylj.entity.Checkgroup" useGeneratedKeys="true">
+      <selectKey resultType="int" keyProperty="id" order="AFTER">
+        SELECT LAST_INSERT_ID()
+      </selectKey>
     insert into t_checkgroup (code, `name`, helpCode, 
       sex, remark, attention
       )
@@ -109,4 +112,12 @@
       attention = #{attention,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertRel">
+    insert into t_checkgroup_checkitem
+    values
+    <foreach collection="checkitemIds" item="cId"  separator="," close=";">
+      (#{id,jdbcType=INTEGER}, #{cId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
 </mapper>
