@@ -1,5 +1,6 @@
 package cn.ylj.service.impl;
 
+import cn.ylj.constant.MessageConstant;
 import cn.ylj.entity.Setmeal;
 import cn.ylj.mapper.SetmealMapper;
 import cn.ylj.model.QueryPageBean;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author : yanglujian
@@ -31,9 +34,11 @@ public class SetmealSerivceImpl implements ISetMealService {
     }
 
     public void delete(Integer id) {
+        //查询是否已被预约，若已经被预约，则无法修改
 
     }
 
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public void update(Setmeal setmeal, Integer[] ids) {
 
     }
@@ -45,6 +50,11 @@ public class SetmealSerivceImpl implements ISetMealService {
     }
 
     public Setmeal findOneById(Integer id) {
-        return null;
+        return setmealMapper.selectByPrimaryKey(id);
+    }
+
+    public List<Integer> findRelBySetmealId(Integer id){
+       Integer[] ids = setmealMapper.findRelBySetmealId(id);
+       return Arrays.asList(ids);
     }
 }

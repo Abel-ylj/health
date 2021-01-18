@@ -4,6 +4,8 @@ import cn.ylj.entity.Setmeal;
 import cn.ylj.model.QueryPageBean;
 import com.github.pagehelper.Page;
 
+import java.util.List;
+
 /**
  * @author : yanglujian
  * create at:  2021/1/18  1:23 下午
@@ -19,4 +21,6 @@ public interface ISetMealService {
     Page<Setmeal> findPage(QueryPageBean pb);
 
     Setmeal findOneById(Integer id);
+
+    List<Integer> findRelBySetmealId(Integer id);
 }

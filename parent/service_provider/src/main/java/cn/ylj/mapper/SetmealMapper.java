@@ -20,4 +20,6 @@ public interface SetmealMapper {
     void insertRel(@Param("id") Integer id, @Param("ids") Integer[] ids);
 
     Page<Setmeal> findPage(@Param("condition") String condition);
+
+    Integer[] findRelBySetmealId(@Param("id") Integer id);
 }
