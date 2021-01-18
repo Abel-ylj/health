@@ -43,9 +43,11 @@ public class Setmeal implements Serializable {
     @ApiModelProperty(value="")
     private String attention;
 
+
+    //重点是这里，H5传过来的是url
     @ApiModelProperty(value="")
     private String img;
 
-    private List<Setmeal> setmealList;
+    private List<Checkgroup> checkgroupList;
 
 }

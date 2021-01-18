@@ -17,4 +17,6 @@ public interface ICheckgroupService {
     Checkgroup findById(Integer id);
 
     void update(Checkgroup checkgroup, Integer[] ids);
+
+    List<Checkgroup> findAll();
 }

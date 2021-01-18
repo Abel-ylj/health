@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author : yanglujian
  * create at:  2021/1/17  8:47 上午
@@ -79,6 +81,16 @@ public class CheckGroupController {
         try{
             Checkgroup checkgroup = checkgroupService.findById(id);
             return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkgroup);
+        } catch (Exception e){
+            return new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
+    }
+
+    @RequestMapping("/findAll")
+    public Result findAll(){
+        try{
+            List<Checkgroup> list = checkgroupService.findAll();
+            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,list);
         } catch (Exception e){
             return new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
         }

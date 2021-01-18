@@ -68,4 +68,8 @@ public class CheckgroupServiceImpl implements ICheckgroupService {
         checkgroupMapper.deleteRelByCheckgroupId(checkgroup.getId());
         checkgroupMapper.insertRel(checkgroup.getId(), ids);
     }
+
+    public List<Checkgroup> findAll() {
+        return checkgroupMapper.findAll();
+    }
 }

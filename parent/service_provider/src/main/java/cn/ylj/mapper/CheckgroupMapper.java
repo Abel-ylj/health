@@ -33,4 +33,6 @@ public interface CheckgroupMapper {
     Checkgroup findByIdWithRel(@Param("id") Integer id);
 
     void deleteRelByCheckgroupId(@Param("id") Integer id);
+
+    List<Checkgroup> findAll();
 }
