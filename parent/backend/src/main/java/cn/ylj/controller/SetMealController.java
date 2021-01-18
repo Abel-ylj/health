@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * @author : yanglujian
@@ -30,13 +31,18 @@ public class SetMealController {
     public Result upload(MultipartFile imgFile, HttpServletRequest req) {
 //        this.saveToLocal(imgFile, req);
         try{
+            //七牛云上传
 //            QiniuUtils.upload2Qiniu(imgFile.getBytes(), imgFile.getOriginalFilename());
-            AliOssUtils.upload(imgFile.getBytes(), imgFile.getOriginalFilename());
+
+            int l = imgFile.getOriginalFilename().lastIndexOf(".");
+            String type = imgFile.getOriginalFilename().substring(l-1);
+            String fileName = UUID.randomUUID() + type;
+            String upload = AliOssUtils.upload(imgFile.getBytes(), fileName);
+            return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS,upload);
         } catch (Exception e){
             e.printStackTrace();
             return new Result(false, MessageConstant.PIC_UPLOAD_FAIL);
         }
-        return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS);
     }
 
     /**

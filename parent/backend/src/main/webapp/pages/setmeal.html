@@ -261,6 +261,14 @@
             methods: {
                 //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
                 handleAvatarSuccess(response, file) {
+                    //response 对象已经是 响应体了
+                    if (response.flag){
+                        //用于图片回显
+                        this.imageUrl = response.data;
+                        this.$message.success(response.message);
+                    } else {
+                        this.$message.error(response.message);
+                    }
                 },
                 //上传图片之前执行
                 beforeAvatarUpload(file) {

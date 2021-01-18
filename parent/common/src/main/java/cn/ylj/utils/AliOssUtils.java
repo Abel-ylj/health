@@ -2,7 +2,6 @@ package cn.ylj.utils;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 import java.io.ByteArrayInputStream;
 
@@ -26,7 +25,7 @@ public class AliOssUtils {
      * @param bytes
      * @param fileName
      */
-    public static void upload(byte[] bytes, String fileName){
+    public static String upload(byte[] bytes, String fileName){
         // Endpoint以杭州为例，其它Region请按实际情况填写。
 //        String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
         // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，
@@ -41,6 +40,8 @@ public class AliOssUtils {
         ossClient.putObject(bucketName, fileName , new ByteArrayInputStream(bytes));
         // 关闭OSSClient。
         ossClient.shutdown();
+        //TODO 这里应该让SDK返回，而不是自己拼接
+        return "https://" + bucketName + "." +endpoint + "/" + fileName;
     }
 
     public static void delete(String fileName){
