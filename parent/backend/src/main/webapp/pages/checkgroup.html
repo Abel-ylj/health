@@ -343,9 +343,37 @@
                         }
                     )
                 },
-                // 弹出编辑窗口
+                // 弹出编辑窗口, 回显checkgroup信息以及关联的checkItem信息
                 handleUpdate(row) {
+                    var _this = this;
                     this.dialogFormVisible4Edit = true;
+                    axios.post("/checkgroup/findById.do?id=" + row.id).then(
+                        res => {
+                            if (res.data.flag){
+                                //表单数据回显
+                                _this.formData = res.data.data;
+                                //检查组所有信息回显
+                                axios.post("/checkitem/findAll.do").then(
+                                    r => {
+                                        if (r.data.flag){
+                                            _this.tableData = r.data.data;
+                                            var arr = [];
+                                            console.log(res.data.data.checkitemList);
+                                            for(let i of res.data.data.checkitemList){
+                                                arr.push(i.id);
+                                            }
+                                            _this.checkitemIds = arr;
+                                            // for(i=0; i< r.data.checkitemList.length; i++){
+                                            //     arr.push(r.data.ch)
+                                            // }
+                                        }
+                                    }
+                                )
+                                //1：n关联的检查项数据回显
+                                // res.data.data.
+                            }
+                        }
+                    )
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {

@@ -29,4 +29,6 @@ public interface CheckgroupMapper {
     List<Checkgroup> findPage(@Param("queryString") String queryString);
 
     int selectSetMealCntByCheckGroup(@Param("id") Integer id);
+
+    Checkgroup findByIdWithRel(@Param("id") Integer id);
 }

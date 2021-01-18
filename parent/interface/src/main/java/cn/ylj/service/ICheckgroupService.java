@@ -13,4 +13,6 @@ public interface ICheckgroupService {
     PageInfo<Checkgroup> findPage(QueryPageBean pageBean);
 
     void deleteById(Integer id);
+
+    Checkgroup findById(Integer id);
 }

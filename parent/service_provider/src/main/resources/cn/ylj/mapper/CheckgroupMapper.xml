@@ -132,4 +132,17 @@
     select count(0) from t_setmeal_checkgroup
     where checkgroup_id = #{id,jdbcType=INTEGER}
   </select>
+
+
+  <resultMap id="rel" extends="BaseResultMap" type="cn.ylj.entity.Checkgroup">
+    <collection property="checkitemList" ofType="cn.ylj.entity.Checkitem">
+      <id column="checkitem_id" property="id"></id>
+    </collection>
+  </resultMap>
+  <select id="findByIdWithRel" resultMap="rel">
+    select
+    *
+    from t_checkgroup tc, t_checkgroup_checkitem tcc
+    where tc.id = tcc.checkgroup_id and tc.id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

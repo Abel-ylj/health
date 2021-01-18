@@ -1,3 +1,4 @@
+import cn.ylj.entity.Checkgroup;
 import cn.ylj.mapper.CheckgroupMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +23,11 @@ public class CheckGroupTest {
     @Test
     public void insertRelTest(){
         checkgroupMapper.insertRel(15, new Integer[]{96,97});
+    }
+
+    @Test
+    public void findOneWithRelById(){
+        Checkgroup cg = checkgroupMapper.findByIdWithRel(15);
+        System.out.println(cg);
     }
 }

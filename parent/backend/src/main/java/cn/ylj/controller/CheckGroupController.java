@@ -7,15 +7,11 @@ import cn.ylj.model.QueryPageBean;
 import cn.ylj.model.Result;
 import cn.ylj.service.ICheckgroupService;
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author : yanglujian
@@ -59,6 +55,21 @@ public class CheckGroupController {
             return new PageResult(page.getTotal(), page.getList());
         } catch (Exception e){
             return null;
+        }
+    }
+
+    /**
+     * 查询id 指定的检查组(包含关联的检查项目)
+     * @param id
+     * @return
+     */
+    @RequestMapping("/findById")
+    public Result findById(@RequestParam("id") Integer id){
+        try{
+            Checkgroup checkgroup = checkgroupService.findById(id);
+            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkgroup);
+        } catch (Exception e){
+            return new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
         }
     }
 }

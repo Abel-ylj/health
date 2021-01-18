@@ -55,4 +55,8 @@ public class CheckgroupServiceImpl implements ICheckgroupService {
         }
         checkgroupMapper.deleteByPrimaryKey(id);
     }
+
+    public Checkgroup findById(Integer id) {
+        return checkgroupMapper.findByIdWithRel(id);
+    }
 }
