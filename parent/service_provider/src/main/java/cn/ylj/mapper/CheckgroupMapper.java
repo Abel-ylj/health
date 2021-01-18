@@ -31,4 +31,6 @@ public interface CheckgroupMapper {
     int selectSetMealCntByCheckGroup(@Param("id") Integer id);
 
     Checkgroup findByIdWithRel(@Param("id") Integer id);
+
+    void deleteRelByCheckgroupId(@Param("id") Integer id);
 }

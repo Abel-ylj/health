@@ -145,4 +145,8 @@
     from t_checkgroup tc, t_checkgroup_checkitem tcc
     where tc.id = tcc.checkgroup_id and tc.id = #{id,jdbcType=INTEGER}
   </select>
+  <delete id="deleteRelByCheckgroupId">
+    delete from t_checkgroup_checkitem
+    where checkgroup_id = #{id,jdbcType=INTEGER}
+  </delete>
 </mapper>

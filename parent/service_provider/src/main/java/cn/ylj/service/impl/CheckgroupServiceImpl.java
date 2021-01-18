@@ -18,7 +18,8 @@ import java.util.List;
  * @author : yanglujian
  * create at:  2021/1/17  4:44 下午
  */
-@Service
+//让dubbo正常发布事务包装的服务
+@Service(interfaceClass = ICheckgroupService.class)
 public class CheckgroupServiceImpl implements ICheckgroupService {
 
     @Resource
@@ -58,5 +59,13 @@ public class CheckgroupServiceImpl implements ICheckgroupService {
 
     public Checkgroup findById(Integer id) {
         return checkgroupMapper.findByIdWithRel(id);
+    }
+
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void update(Checkgroup checkgroup, Integer[] ids) {
+        checkgroupMapper.updateByPrimaryKeySelective(checkgroup);
+        //清空原先的关系，更新为最新的关系
+        checkgroupMapper.deleteRelByCheckgroupId(checkgroup.getId());
+        checkgroupMapper.insertRel(checkgroup.getId(), ids);
     }
 }

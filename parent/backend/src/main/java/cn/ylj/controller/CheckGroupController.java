@@ -40,11 +40,22 @@ public class CheckGroupController {
         try {
             checkgroupService.deleteById(id);
             return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+            //TODO 查看这个异常的捕获问题
         } catch (RuntimeException ex){
           return new Result(false, ex.getMessage());
         } catch (Exception e){
             e.printStackTrace();
             return new Result(true, MessageConstant.DELETE_CHECKGROUP_FAIL);
+        }
+    }
+
+    @RequestMapping("/update")
+    public Result update(@RequestBody Checkgroup checkgroup,@RequestParam("ids") Integer[] ids){
+        try{
+            checkgroupService.update(checkgroup,ids);
+            return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+        } catch (Exception e){
+            return new Result(false, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
         }
     }
 

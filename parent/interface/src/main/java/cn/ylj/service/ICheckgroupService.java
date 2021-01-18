@@ -15,4 +15,6 @@ public interface ICheckgroupService {
     void deleteById(Integer id);
 
     Checkgroup findById(Integer id);
+
+    void update(Checkgroup checkgroup, Integer[] ids);
 }
