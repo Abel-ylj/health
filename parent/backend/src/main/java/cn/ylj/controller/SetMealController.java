@@ -2,8 +2,14 @@ package cn.ylj.controller;
 
 import cn.ylj.constant.MessageConstant;
 import cn.ylj.entity.Setmeal;
+import cn.ylj.model.PageResult;
+import cn.ylj.model.QueryPageBean;
 import cn.ylj.model.Result;
+import cn.ylj.service.ISetMealService;
 import cn.ylj.utils.AliOssUtils;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +28,29 @@ import java.util.UUID;
 @RequestMapping("/setmeal")
 public class SetMealController {
 
+    @Reference
+    private ISetMealService setMealService;
+
     @RequestMapping("/add")
     public Result add(@RequestBody Setmeal setmeal, Integer[] ids) {
-        return null;
+        try{
+            setMealService.add(setmeal, ids);
+            return new Result(true, MessageConstant.ADD_SETMEAL_SUCCESS);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new Result(false,MessageConstant.ADD_SETMEAL_FAIL);
+        }
+    }
+
+    @RequestMapping("/findPage")
+    public PageResult findPage(@RequestBody QueryPageBean pb){
+        try{
+            Page<Setmeal> page = setMealService.findPage(pb);
+            return new PageResult(page.getTotal(), page.getResult());
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @RequestMapping("/upload")

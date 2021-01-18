@@ -2,7 +2,7 @@ package cn.ylj.service;
 
 import cn.ylj.entity.Setmeal;
 import cn.ylj.model.QueryPageBean;
-import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.Page;
 
 /**
  * @author : yanglujian
@@ -16,7 +16,7 @@ public interface ISetMealService {
 
     void update(Setmeal setmeal, Integer[] ids);
 
-    PageInfo findPage(QueryPageBean pb);
+    Page<Setmeal> findPage(QueryPageBean pb);
 
     Setmeal findOneById(Integer id);
 }

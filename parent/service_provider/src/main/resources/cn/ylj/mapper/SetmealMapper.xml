@@ -28,6 +28,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.ylj.entity.Setmeal" useGeneratedKeys="true">
+    <selectKey resultType="int" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_setmeal (`name`, code, helpCode, 
       sex, age, price, remark, 
       attention, img)
@@ -142,4 +145,19 @@
       img = #{img,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertRel">
+    insert into t_setmeal_checkgroup values
+    <foreach collection="ids" item="sid"  separator="," close=";">
+      (#{id,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from t_setmeal
+    <where>
+      <if test="condition != null and condition != ''">
+        code = #{condition,jdbcType=VARCHAR}
+        or name = #{condition,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
 </mapper>

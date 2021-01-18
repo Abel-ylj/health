@@ -93,7 +93,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="age" label="适用年龄" align="center"></el-table-column>
-                        <el-table-column prop="helpCode" label="助记码" align="center"></el-table-column>
+                        <el-table-column prop="helpcode" label="助记码" align="center"></el-table-column>
                         <el-table-column prop="remark" label="说明" align="center"></el-table-column>
                         <el-table-column label="操作" align="center">
                             <template slot-scope="scope">
@@ -146,7 +146,7 @@
                                                 </el-col>
                                                 <el-col :span="12">
                                                     <el-form-item label="助记码">
-                                                        <el-input v-model="formData.helpCode"/>
+                                                        <el-input v-model="formData.helpcode"/>
                                                     </el-form-item>
                                                 </el-col>
                                             </el-row>
@@ -265,6 +265,8 @@
                     if (response.flag){
                         //用于图片回显
                         this.imageUrl = response.data;
+                        //表单提交时就会带上这个图片
+                        this.formData.img = response.data;
                         this.$message.success(response.message);
                     } else {
                         this.$message.error(response.message);
@@ -284,9 +286,32 @@
                 },
                 //添加
                 handleAdd () {
+                    var _this = this;
+                    //1. setmeal表单数据， 2.setmeal_checkgroup关系
+                    axios.post("/setmeal/add.do?ids="+this.checkgroupIds,this.formData).then(
+                        res => {
+                            if (res.data.flag){
+                                //后台增加成功 1. 模态窗口消失
+                                _this.dialogFormVisible = false;
+                                //2. 消息提示
+                                _this.$message.success(res.data.message);
+                                //3. 刷新页面
+                                _this.findPage();
+                            } else {
+                                _this.$message.error(res.data.message);
+                            }
+                        }
+                    )
                 },
                 //分页查询
                 findPage() {
+                    var _this = this;
+                    axios.post("/setmeal/findPage.do",this.pagination).then(
+                        res => {
+                            _this.dataList = res.data.rows;
+                            _this.pagination.total = res.data.total;
+                        }
+                    )
                 },
                 // 重置表单
                 resetForm() {
