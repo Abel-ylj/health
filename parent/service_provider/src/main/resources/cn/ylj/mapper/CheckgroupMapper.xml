@@ -128,4 +128,8 @@
       </if>
     </where>
   </select>
+  <select id="selectSetMealCntByCheckGroup" resultType="int">
+    select count(0) from t_setmeal_checkgroup
+    where checkgroup_id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -11,4 +11,6 @@ public interface ICheckgroupService {
     int add(Checkgroup checkgroup, Integer[] checkitemIds);
 
     PageInfo<Checkgroup> findPage(QueryPageBean pageBean);
+
+    void deleteById(Integer id);
 }

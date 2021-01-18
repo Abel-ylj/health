@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,6 +36,19 @@ public class CheckGroupController {
         } catch (Exception e){
             e.printStackTrace();
             return new Result(false, MessageConstant.ADD_CHECKGROUP_FAIL);
+        }
+    }
+
+    @RequestMapping("/deleteById")
+    public Result deleteById(@RequestParam("id") Integer id){
+        try {
+            checkgroupService.deleteById(id);
+            return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+        } catch (RuntimeException ex){
+          return new Result(false, ex.getMessage());
+        } catch (Exception e){
+            e.printStackTrace();
+            return new Result(true, MessageConstant.DELETE_CHECKGROUP_FAIL);
         }
     }
 

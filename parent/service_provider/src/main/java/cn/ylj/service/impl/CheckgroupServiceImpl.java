@@ -1,5 +1,6 @@
 package cn.ylj.service.impl;
 
+import cn.ylj.constant.MessageConstant;
 import cn.ylj.entity.Checkgroup;
 import cn.ylj.mapper.CheckgroupMapper;
 import cn.ylj.model.QueryPageBean;
@@ -44,5 +45,14 @@ public class CheckgroupServiceImpl implements ICheckgroupService {
         PageHelper.startPage(pageBean.getCurrentPage(), pageBean.getPageSize());
         List list = checkgroupMapper.findPage(pageBean.getQueryString());
         return new PageInfo<Checkgroup>(list);
+    }
+
+    public void deleteById(Integer id) {
+        //查询依赖
+        int cnt = checkgroupMapper.selectSetMealCntByCheckGroup(id);
+        if (cnt > 0){
+            throw new RuntimeException(MessageConstant.DELETE_CHECKGROUP_MSG);
+        }
+        checkgroupMapper.deleteByPrimaryKey(id);
     }
 }

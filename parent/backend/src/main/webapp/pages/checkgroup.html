@@ -355,6 +355,26 @@
                 },
                 // 删除
                 handleDelete(row) {
+                    var _this = this;
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("/checkgroup/deleteById.do?id=" + row.id).then(res => {
+                            if (res.data.flag){
+                                _this.$message.success(res.data.message);
+                            } else {
+                                _this.$message.error(res.data.message);
+                            }
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                    _this.findPage();
                 }
             }
         })

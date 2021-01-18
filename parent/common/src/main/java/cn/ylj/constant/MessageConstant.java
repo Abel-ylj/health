@@ -26,6 +26,8 @@ public class MessageConstant {
     public static final String EDIT_CHECKGROUP_FAIL = "编辑检查组失败";
     public static final String EDIT_CHECKGROUP_SUCCESS = "编辑检查组成功";
 
+    public static final String DELETE_CHECKGROUP_MSG = "检查项已被已有套餐依赖";
+
     //套餐CRUD消息
     public static final String ADD_SETMEAL_FAIL = "新增套餐失败";
     public static final String ADD_SETMEAL_SUCCESS = "新增套餐成功";
