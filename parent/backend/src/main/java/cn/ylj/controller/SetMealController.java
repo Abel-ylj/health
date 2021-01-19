@@ -1,6 +1,7 @@
 package cn.ylj.controller;
 
 import cn.ylj.constant.MessageConstant;
+import cn.ylj.constant.RedisConstant;
 import cn.ylj.entity.Setmeal;
 import cn.ylj.model.PageResult;
 import cn.ylj.model.QueryPageBean;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.JedisPool;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +35,8 @@ public class SetMealController {
 
     @Reference
     private ISetMealService setMealService;
+    @Resource
+    private JedisPool jedisPool;
 
     @RequestMapping("/add")
     public Result add(@RequestBody Setmeal setmeal, Integer[] ids) {
@@ -99,6 +104,10 @@ public class SetMealController {
             String type = imgFile.getOriginalFilename().substring(l-1);
             String fileName = UUID.randomUUID() + type;
             String upload = AliOssUtils.upload(imgFile.getBytes(), fileName);
+
+            //同步存储一份集合到 redis中set，供后面获取集合进行比较。 也可以调用oss的api获取图片列表，和数据库中的已被已用的图片进行比较
+            //未被引用的图片调用api进行删除
+            jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_RESOURCES, upload);
             return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS,upload);
         } catch (Exception e){
             e.printStackTrace();

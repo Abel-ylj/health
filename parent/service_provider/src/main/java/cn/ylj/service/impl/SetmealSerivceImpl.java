@@ -1,6 +1,7 @@
 package cn.ylj.service.impl;
 
 import cn.ylj.constant.MessageConstant;
+import cn.ylj.constant.RedisConstant;
 import cn.ylj.entity.Setmeal;
 import cn.ylj.mapper.SetmealMapper;
 import cn.ylj.model.QueryPageBean;
@@ -11,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -25,12 +27,18 @@ public class SetmealSerivceImpl implements ISetMealService {
 
     @Resource
     SetmealMapper setmealMapper;
+    @Resource
+    private JedisPool jedisPool;
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void add(Setmeal setmeal, Integer[] ids) {
         setmealMapper.insert(setmeal);
         //插入关系
         setmealMapper.insertRel(setmeal.getId(), ids);
+        //将该套餐附带的图片 添加到redis已被引用图片记录的set中
+
+        //TODO 思考，redis和transcation的关系
+        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, setmeal.getImg());
     }
 
     public void delete(Integer id) {
