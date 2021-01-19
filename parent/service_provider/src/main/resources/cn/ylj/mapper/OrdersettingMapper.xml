@@ -74,10 +74,20 @@
       reservations = #{reservations,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+<!--  插入的第一种写法 -->
   <insert id="insertList" parameterType="java.util.List">
     insert into t_ordersetting(orderDate,number) values
     <foreach collection="list" item="it" separator="," close=";">
         (#{it.odate} , #{it.num})
+    </foreach>
+  </insert>
+
+<!-- 插入的第二种写法 -->
+  <insert id="insertOrdersettingList">
+    insert into t_ordersetting(orderDate, number, reservations) values
+    <foreach collection="list" item="item" separator="," close=";">
+      (#{item.orderdate}, #{item.number}, #{item.reservations})
     </foreach>
   </insert>
 </mapper>

@@ -20,4 +20,6 @@ public interface OrdersettingMapper {
     int updateByPrimaryKey(Ordersetting record);
 
     void insertList(@Param("list") List<Map> list);
+
+    void insertOrdersettingList(@Param("list") List<Ordersetting> list);
 }

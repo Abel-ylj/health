@@ -1,11 +1,11 @@
 package cn.ylj.service.impl;
 
+import cn.ylj.entity.Ordersetting;
 import cn.ylj.mapper.OrdersettingMapper;
 import cn.ylj.service.IOrdersettingService;
 import com.alibaba.dubbo.config.annotation.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,18 +23,13 @@ public class OrdersettingServiceImpl implements IOrdersettingService {
     private OrdersettingMapper ordersettingMapper;
 
     @Override
-    public void importOrderSetting(List<String[]> list) {
-        List<Map> convert = convert(list);
-        ordersettingMapper.insertList(convert);
+    public void importOrderSetting(List<Ordersetting> list) {
+//        List<Map> convert = convert(list);
+//        ordersettingMapper.insertList(convert);
+
+        //用mysql 唯一约束 避免对同一天进行两次预约设置。
+        ordersettingMapper.insertOrdersettingList(list);
     }
 
-    private List<Map> convert(List<String[]> lst) {
-        return lst.stream().map(o -> {
-            Map<String, String> map = new HashMap<>();
-            map.put("odate", o[0]);
-            map.put("num", o[1]);
-            return map;
-        }).collect(Collectors.toList());
-    }
 
 }
