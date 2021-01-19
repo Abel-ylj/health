@@ -1,6 +1,10 @@
 package cn.ylj.mapper;
 
 import cn.ylj.entity.Ordersetting;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface OrdersettingMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +18,6 @@ public interface OrdersettingMapper {
     int updateByPrimaryKeySelective(Ordersetting record);
 
     int updateByPrimaryKey(Ordersetting record);
+
+    void insertList(@Param("list") List<Map> list);
 }

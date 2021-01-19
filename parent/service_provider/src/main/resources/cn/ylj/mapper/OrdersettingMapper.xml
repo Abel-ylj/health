@@ -74,4 +74,10 @@
       reservations = #{reservations,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertList" parameterType="java.util.List">
+    insert into t_ordersetting(orderDate,number) values
+    <foreach collection="list" item="it" separator="," close=";">
+        (#{it.odate} , #{it.num})
+    </foreach>
+  </insert>
 </mapper>
