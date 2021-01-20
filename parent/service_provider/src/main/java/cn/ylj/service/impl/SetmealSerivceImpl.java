@@ -65,4 +65,9 @@ public class SetmealSerivceImpl implements ISetMealService {
        Integer[] ids = setmealMapper.findRelBySetmealId(id);
        return Arrays.asList(ids);
     }
+
+    @Override
+    public List<Setmeal> getSetmealList() {
+        return setmealMapper.findAll();
+    }
 }

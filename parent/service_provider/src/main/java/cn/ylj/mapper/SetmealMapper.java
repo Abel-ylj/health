@@ -4,6 +4,8 @@ import cn.ylj.entity.Setmeal;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface SetmealMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -22,4 +24,6 @@ public interface SetmealMapper {
     Page<Setmeal> findPage(@Param("condition") String condition);
 
     Integer[] findRelBySetmealId(@Param("id") Integer id);
+
+    List<Setmeal> findAll();
 }

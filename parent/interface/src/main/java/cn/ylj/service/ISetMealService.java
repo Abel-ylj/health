@@ -23,4 +23,10 @@ public interface ISetMealService {
     Setmeal findOneById(Integer id);
 
     List<Integer> findRelBySetmealId(Integer id);
+
+    /**
+     * 移动H5 获取套餐列表
+     * @return
+     */
+    List<Setmeal> getSetmealList();
 }

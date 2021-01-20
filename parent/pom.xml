@@ -12,7 +12,7 @@
         <module>common</module>
         <module>interface</module>
         <module>service_provider</module>
-        <module>backend</module>
+<!--        <module>backend</module>-->
         <module>mobile_web</module>
         <!--        <module>jobs</module>-->
     </modules>

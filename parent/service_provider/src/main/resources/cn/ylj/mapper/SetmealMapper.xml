@@ -163,4 +163,7 @@
   <select id="findRelBySetmealId" resultType="java.lang.Integer">
     select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="findAll" resultMap="BaseResultMap">
+      select * from t_setmeal
+    </select>
 </mapper>
