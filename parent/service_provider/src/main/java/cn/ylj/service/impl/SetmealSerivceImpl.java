@@ -70,4 +70,9 @@ public class SetmealSerivceImpl implements ISetMealService {
     public List<Setmeal> getSetmealList() {
         return setmealMapper.findAll();
     }
+
+    @Override
+    public Setmeal findById(Integer id) {
+        return setmealMapper.selectByPrimaryKey(id);
+    }
 }

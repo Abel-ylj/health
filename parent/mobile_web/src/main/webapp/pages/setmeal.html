@@ -24,7 +24,7 @@
         <div class="list-column1">
             <ul class="list">
                 <li class="list-item" v-for="setmeal in setmealList">
-<!--       点击调转掉套餐详情             -->
+<!--       点击调转掉套餐详情 重点!!(跳转的同时将套餐id带了过去)            -->
                     <a class="link-page" :href="'setmeal_detail.html?id='+setmeal.id">
 <!--       显示套餐图片                 -->
                     <img class="img-object f-left" :src="setmeal.img" alt="">

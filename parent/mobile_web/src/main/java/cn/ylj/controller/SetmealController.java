@@ -6,6 +6,7 @@ import cn.ylj.model.Result;
 import cn.ylj.service.ISetMealService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,5 +32,15 @@ public class SetmealController {
             return new Result(false, MessageConstant.QUERY_SETMEALLIST_FAIL);
         }
 
+    }
+
+    @RequestMapping("/findById")
+    public Result findById(@RequestParam("id") Integer id){
+        try{
+            Setmeal setmeal = setMealService.findById(id);
+            return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS, setmeal);
+        }catch (Exception e){
+            return new Result(false, MessageConstant.QUERY_SETMEAL_FAIL);
+        }
     }
 }

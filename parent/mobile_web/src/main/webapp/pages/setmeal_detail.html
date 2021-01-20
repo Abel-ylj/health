@@ -14,6 +14,7 @@
     <script src="../plugins/vue/axios-0.18.0.js"></script>
     <script src="../plugins/healthmobile.js"></script>
     <script>
+        //获取location url，字符串截取获取传过来的id
         var id = getUrlParam("id");
     </script>
 </head>
@@ -91,10 +92,11 @@
             }
         },
         mounted(){
+            var _this = this;
             axios.post("/setmeal/findById.do?id=" + id).then((response) => {
                 if(response.data.flag){
-                    this.setmeal = response.data.data;
-                    this.imgUrl = 'http://pqjroc654.bkt.clouddn.com/' + this.setmeal.img;
+                    _this.setmeal = response.data.data;
+                    _this.imgUrl =  this.setmeal.img;
                 }
             });
         }

@@ -29,4 +29,11 @@ public interface ISetMealService {
      * @return
      */
     List<Setmeal> getSetmealList();
+
+    /**
+     * 获取套餐详情
+     * @param id
+     * @return
+     */
+    Setmeal findById(Integer id);
 }
