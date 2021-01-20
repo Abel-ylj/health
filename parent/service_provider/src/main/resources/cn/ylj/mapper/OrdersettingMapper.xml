@@ -99,4 +99,8 @@
   <update id="updateByDate">
     update t_ordersetting set number = #{iNum} where orderDate = DATE_FORMAT(#{date},'%Y-%m-%d')
   </update>
+  <select id="findOneByDateForUpdate" resultMap="BaseResultMap">
+    select * from t_ordersetting
+    where DATE_FORMAT(orderDate,'%Y-%m-%d') = DATE_FORMAT(#{orderDate},'%Y-%m-%d') for update
+  </select>
 </mapper>

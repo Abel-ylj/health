@@ -1,9 +1,11 @@
 package cn.ylj.service;
 
+import cn.ylj.entity.Member;
 import cn.ylj.entity.Setmeal;
 import cn.ylj.model.QueryPageBean;
 import com.github.pagehelper.Page;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,4 +38,13 @@ public interface ISetMealService {
      * @return
      */
     Setmeal findById(Integer id);
+
+    /**
+     * 预约
+     * @param member    会员
+     * @param setmealId 套餐id
+     * @param orderDate 预约时间
+     * @return
+     */
+    Integer order(Member member, Integer setmealId, Date orderDate) throws Exception;
 }

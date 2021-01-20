@@ -2,22 +2,25 @@ package cn.ylj.service.impl;
 
 import cn.ylj.constant.MessageConstant;
 import cn.ylj.constant.RedisConstant;
-import cn.ylj.entity.Checkgroup;
-import cn.ylj.entity.Setmeal;
-import cn.ylj.mapper.CheckgroupMapper;
-import cn.ylj.mapper.SetmealMapper;
+import cn.ylj.entity.*;
+import cn.ylj.enums.OrderStatusEnum;
+import cn.ylj.enums.OrderTypeEnum;
+import cn.ylj.ex.EmptyException;
+import cn.ylj.ex.FullException;
+import cn.ylj.ex.ReplicateException;
+import cn.ylj.mapper.*;
 import cn.ylj.model.QueryPageBean;
 import cn.ylj.service.ISetMealService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +36,12 @@ public class SetmealSerivceImpl implements ISetMealService {
     private JedisPool jedisPool;
     @Resource
     private CheckgroupMapper checkgroupMapper;
+    @Resource
+    private MemberMapper memberMapper;
+    @Resource
+    private OrderMapper orderMapper;
+    @Resource
+    private OrdersettingMapper ordersettingMapper;
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void add(Setmeal setmeal, Integer[] ids) {
@@ -86,5 +95,47 @@ public class SetmealSerivceImpl implements ISetMealService {
             }
         }
         return setmeal;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public Integer order(Member member, Integer setmealId, Date orderDate) throws Exception {
+        //1. 查询用户是否已存在,不存在新建member
+        Member m = memberMapper.findCntByIdCard(member.getIdcard());
+        if (m == null){
+            member.setRegtime(new Date());
+            memberMapper.insertSelective(member);
+        } else {
+            member.setId(m.getId());
+        }
+        //2. 查看预约日期的预约数量
+        Ordersetting os = ordersettingMapper.findOneByDateForUpdate(orderDate);
+        if (os == null){
+            throw new EmptyException(MessageConstant.SELECTED_DATE_CANNOT_ORDER);
+        }
+        //3. 判断预约数量是否已满
+        if (os.getNumber() - os.getReservations() <= 0){
+            throw new FullException(MessageConstant.ORDER_FULL);
+        }
+        //4. 判断用户是否重复预约（1个用户当天只能预约1个）
+        Integer cnt = orderMapper.findCntByDate(orderDate,m.getId());
+        if (cnt > 0){
+            throw new ReplicateException(MessageConstant.HAS_ORDERED);
+        }
+
+        //4. 新增预约单
+        Order order = new Order();
+        order.setMemberId(member.getId());
+        order.setSetmealId(setmealId);
+        order.setOrderdate(orderDate);
+        order.setOrdertype(OrderTypeEnum.WECHAT.msg());
+        order.setOrderstatus(OrderStatusEnum.PENDING.msg());
+        orderMapper.insert(order);
+        //5. 当天已预约数量+1
+        os.setReservations(os.getReservations()+1);
+        ordersettingMapper.updateByPrimaryKeySelective(os);
+
+        //6. 返回预约订单号
+        return order.getId();
     }
 }

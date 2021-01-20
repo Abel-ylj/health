@@ -26,14 +26,14 @@
             <!-- 页面头部 -->
             <div class="top-header">
                 <span class="f-left"><i class="icon-back" onclick="history.go(-1)"></i></span>
-                <span class="center">传智健康</span>
+                <span class="center">我很健康</span>
                 <span class="f-right"><i class="icon-more"></i></span>
             </div>
             <!-- 页面内容 -->
             <div class="contentBox">
                 <div class="card">
                     <div class="">
-                        <img :src="'http://pqjroc654.bkt.clouddn.com/'+setmeal.img" width="100%" height="100%" />
+                        <img :src="setmeal.img" width="100%" height="100%" />
                     </div>
                     <div class="project-text">
                         <h4 class="tit">{{setmeal.name}}</h4>
@@ -78,7 +78,7 @@
                         <div class="input-row">
                             <label>手机号</label>
                             <input v-model="orderInfo.telephone" type="text" class="input-clear" placeholder="请输入手机号">
-                            <input style="font-size: x-small;" id="validateCodeButton" @click="sendValidateCode()" type="button" value="发送验证码">
+                            <input id="validateCodeButton" style="font-size: x-small;"  @click="sendValidateCode()" type="button" value="发送验证码">
                         </div>
                         <div class="input-row">
                             <label>验证码</label>
@@ -113,12 +113,67 @@
                 methods:{
                     //发送验证码
                     sendValidateCode(){
+                        _this = this;
+                        //1.手机号校验
+                        if (!checkTelephone(this.orderInfo.telephone)){
+                            _this.$message.error("手机号不正确");
+                            return;
+                        }
+                        //2.手机验证码30倒计时
+                        validateCodeButton = $("#validateCodeButton")[0];
+                        clock = window.setInterval(doLoop,1000);
+
+                        //3.发送ajax请求
+                        axios.post("/validate/sendCode.do?tel=" + this.orderInfo.telephone)
+                        .then(res => {
+                            if (res.data.flag){
+                                console.log("验证码发送成功");
+                                _this.$message.success(res.data.message);
+                            } else {
+                                console.log("验证码发送失败");
+                                _this.$message.error(res.data.message);
+                            }
+                        })
                     },
                     //提交预约
                     submitOrder(){
+                        var _this = this;
+                        //1.身份证号检查
+                        if (!checkIdCard(_this.orderInfo.idCard)){
+                            _this.$message.error("身份证号不合法");
+                            return;
+                        }
+                        var param = {
+                            name:_this.orderInfo.name, //体检人名
+                            sex:_this.orderInfo.sex, //性别
+                            phoneNumber:_this.orderInfo.telephone,//电话
+                            code:_this.orderInfo.validateCode,
+                            idCard:_this.orderInfo.idCard,
+                            orderDate:_this.orderInfo.orderDate,
+                            setmealId:_this.orderInfo.setmealId
+                        };
+                        axios.post("/setmeal/order.do",param)
+                        .then(res => {
+                            if (res.data.flag){
+                                _this.$message.success(res.data.message);
+                                //跳转成功页面,后端需要传回来新插入的id
+                                window.location = "orderSuccess.html?orderId=" + res.data.data;
+                            } else {
+                                _this.$message.error(res.data.message);
+                            }
+                        })
                     }
                 },
                 mounted(){
+                    //根据url中带过来的id回显套餐数据
+                    var _this = this;
+                    axios.post("/setmeal/findById.do?id="+this.orderInfo.setmealId)
+                    .then(res => {
+                        if (res.data.flag){
+                            _this.setmeal = res.data.data;
+                        } else {
+                        }
+                    });
                 }
             });
         </script>

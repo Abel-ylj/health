@@ -9,7 +9,11 @@ public class RedisConstant {
     public static final String SETMEAL_PIC_DB_RESOURCES = "health:setmealPicDbResources";
 
     //验证码
-    public static final String SENDTYPE_ORDER = "health:order001:";//用于缓存体检预约时发送的验证码
-    public static final String SENDTYPE_LOGIN = "health:login002";//用于缓存手机号快速登录时发送的验证码
-    public static final String SENDTYPE_GETPWD = "health:forgetpwd003";//用于缓存找回密码时发送的验证码
+    public static final String SENDTYPE_ORDER = "health:order001:%s";//用于缓存体检预约时发送的验证码
+    public static final String SENDTYPE_LOGIN = "health:login002:%s";//用于缓存手机号快速登录时发送的验证码
+    public static final String SENDTYPE_GETPWD = "health:forgetpwd003:%s";//用于缓存找回密码时发送的验证码
+
+    //失效时间5min
+    public static final Integer EXPIRED_ORDER = 300;
+
 }

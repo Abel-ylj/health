@@ -24,7 +24,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.ylj.entity.Order" useGeneratedKeys="true">
-    insert into t_order (member_id, orderDate, orderType, 
+    <selectKey resultType="int" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order (member_id, orderDate, orderType,
       orderStatus, setmeal_id)
     values (#{memberId,jdbcType=INTEGER}, #{orderdate,jdbcType=DATE}, #{ordertype,jdbcType=VARCHAR}, 
       #{orderstatus,jdbcType=VARCHAR}, #{setmealId,jdbcType=INTEGER})
@@ -96,4 +99,9 @@
       setmeal_id = #{setmealId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="findCntByDate" resultType="java.lang.Integer">
+      select count(0) from t_order
+      where DATE_FORMAT(orderDate,'%Y-%m-%d') = DATE_FORMAT(#{orderDate},'%Y-%m-%d')
+      and member_id = #{userId}
+    </select>
 </mapper>

@@ -29,4 +29,6 @@ public interface OrdersettingMapper {
     Integer findCntByDate(@Param("date") Date date);
 
     void updateByDate(@Param("date") Date date, @Param("iNum") int iNum);
+
+    Ordersetting findOneByDateForUpdate(@Param("orderDate") Date orderDate);
 }

@@ -1,6 +1,9 @@
 package cn.ylj.mapper;
 
 import cn.ylj.entity.Order;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    Integer findCntByDate(@Param("orderDate") Date orderDate, @Param("userId") Integer userId);
 }
