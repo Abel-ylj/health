@@ -2,7 +2,9 @@ package cn.ylj.service.impl;
 
 import cn.ylj.constant.MessageConstant;
 import cn.ylj.constant.RedisConstant;
+import cn.ylj.entity.Checkgroup;
 import cn.ylj.entity.Setmeal;
+import cn.ylj.mapper.CheckgroupMapper;
 import cn.ylj.mapper.SetmealMapper;
 import cn.ylj.model.QueryPageBean;
 import cn.ylj.service.ISetMealService;
@@ -29,6 +31,8 @@ public class SetmealSerivceImpl implements ISetMealService {
     SetmealMapper setmealMapper;
     @Resource
     private JedisPool jedisPool;
+    @Resource
+    private CheckgroupMapper checkgroupMapper;
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void add(Setmeal setmeal, Integer[] ids) {
@@ -73,6 +77,14 @@ public class SetmealSerivceImpl implements ISetMealService {
 
     @Override
     public Setmeal findById(Integer id) {
-        return setmealMapper.selectByPrimaryKey(id);
+        Setmeal setmeal = setmealMapper.findDetailById(id);
+        if (setmeal.getCheckgroupList() != null && setmeal.getCheckgroupList().size() > 0){
+            //将检查组对应的检查项 写入列表
+            for (Checkgroup checkgroup : setmeal.getCheckgroupList()) {
+                Checkgroup cg = checkgroupMapper.findByIdWithRel(checkgroup.getId());
+                checkgroup.setCheckitemList(cg.getCheckitemList());
+            }
+        }
+        return setmeal;
     }
 }

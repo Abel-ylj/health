@@ -48,6 +48,8 @@
                 </a>
             </div>-->
         </div>
+
+
         <div class="table-listbox">
             <div class="box-title">
                 <i class="icon-zhen"><span class="path1"></span><span class="path2"></span></i>
@@ -61,10 +63,10 @@
                 </div>
                 <div class="table-content">
                     <ul class="table-list">
-                        <li class="table-item" v-for="checkgroup in setmeal.checkGroups">
+                        <li class="table-item" v-for="checkgroup in setmeal.checkgroupList">
                             <div class="item flex2">{{checkgroup.name}}</div>
                             <div class="item flex3">
-                                <label v-for="checkitem in checkgroup.checkItems">
+                                <label v-for="checkitem in checkgroup.checkitemList">
                                     {{checkitem.name}}
                                 </label>
                             </div>

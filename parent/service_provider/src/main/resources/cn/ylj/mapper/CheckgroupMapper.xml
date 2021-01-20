@@ -137,13 +137,31 @@
   <resultMap id="rel" extends="BaseResultMap" type="cn.ylj.entity.Checkgroup">
     <collection property="checkitemList" ofType="cn.ylj.entity.Checkitem">
       <id column="checkitem_id" property="id"></id>
+      <result column="ccode" property="code"></result>
+      <result column="cname" property="name"></result>
+      <result column="csex" property="sex"></result>
+      <result column="cage" property="age"></result>
+      <result column="cprice" property="price"></result>
+      <result column="ctype" property="type"></result>
+      <result column="cattention" property="attention"></result>
+      <result column="cremark" property="remark"></result>
     </collection>
   </resultMap>
   <select id="findByIdWithRel" resultMap="rel">
     select
-    *
-    from t_checkgroup tc, t_checkgroup_checkitem tcc
-    where tc.id = tcc.checkgroup_id and tc.id = #{id,jdbcType=INTEGER}
+    tc.*,
+    tcc.*,
+    tci.attention as cattention,
+    tci.name as cname,
+    tci.code as ccode,
+    tci.age as cage,
+    tci.type as ctype,
+    tci.price as cprice,
+    tci.remark as cremark,
+    tci.sex as csex
+    from t_checkgroup tc, t_checkgroup_checkitem tcc, t_checkitem tci
+    where tc.id = tcc.checkgroup_id and tcc.checkitem_id = tci.id
+    and tc.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteRelByCheckgroupId">
     delete from t_checkgroup_checkitem

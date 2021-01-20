@@ -26,4 +26,6 @@ public interface SetmealMapper {
     Integer[] findRelBySetmealId(@Param("id") Integer id);
 
     List<Setmeal> findAll();
+
+    Setmeal findDetailById(@Param("id") Integer id);
 }

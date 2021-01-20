@@ -166,4 +166,31 @@
     <select id="findAll" resultMap="BaseResultMap">
       select * from t_setmeal
     </select>
+
+  <!-- resultMap 可以继承 -->
+  <resultMap id="rm" type="cn.ylj.entity.Setmeal" extends="BaseResultMap">
+    <collection property="checkgroupList" ofType="cn.ylj.entity.Checkgroup">
+      <id column="checkgroup_id" property="id"></id>
+      <result column="ccode" property="code"></result>
+      <result column="cname" property="name"></result>
+      <result column="chelpCode" property="helpcode"></result>
+      <result column="csex" property="sex"></result>
+      <result column="cremark" property="remark"></result>
+      <result column="cattention" property="attention"></result>
+    </collection>
+  </resultMap>
+  <select id="findDetailById" resultMap="rm">
+    select
+      ts.*,
+      tsc.*,
+      tc.name as cname,
+      tc.code as ccode,
+      tc.remark as cremark,
+      tc.attention as cattention,
+      tc.helpCode as chelpcode,
+      tc.sex as csex
+      from t_setmeal ts,t_setmeal_checkgroup tsc,t_checkgroup tc
+      where ts.id = tsc.setmeal_id and tsc.checkgroup_id = tc.id
+      and ts.id = #{id}
+  </select>
 </mapper>
