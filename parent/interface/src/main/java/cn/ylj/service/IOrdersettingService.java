@@ -9,4 +9,6 @@ public interface IOrdersettingService {
     void importOrderSetting(List<Ordersetting> list);
 
     List<Ordersetting> getOrdersettingByMonth(Date date);
+
+    void insertOrder(Date date, int iNum);
 }

@@ -149,6 +149,37 @@
             methods: {
 				//预约设置
                 handleOrderSet(day){
+                    var _this = this;
+                    this.$prompt('请输入预约数量', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消'
+                        //inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+                        //inputErrorMessage: '邮箱格式不正确'
+                    }).then(({ value }) => {
+                        this.$message({
+                            type: 'success',
+                            message: '预约数: ' + value
+                        });
+
+                        //将预约数发送
+                        axios.post("/ordersetting/setnum.do",{
+                            date: this.formatDate(day.getFullYear(), day.getMonth()+1, day.getDate()),
+                            num: value
+                        }).then((res) => {
+                            if (res.data.flag){
+                                _this.$message.success(res.data.message);
+                            } else {
+                                _this.$message.error(res.data.message)
+                            }
+                        }).finally(()=>{
+                            _this.initData(_this.formatDate(day.getFullYear(), day.getMonth() + 1, 1));
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '取消输入'
+                        });
+                    });
                 },
 				//上传之前进行文件格式校验
                 beforeUpload(file){
@@ -193,6 +224,7 @@
                         // d.setDate(35);
                         // date = new Date(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
                         date = new Date();
+                        this.initData(this.formatDate(date.getFullYear(), date.getMonth() + 1, 1))
                     }
                     this.currentDay = date.getDate();
                     this.currentYear = date.getFullYear();

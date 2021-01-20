@@ -25,4 +25,8 @@ public interface OrdersettingMapper {
     void insertOrdersettingList(@Param("list") List<Ordersetting> list);
 
     List<Ordersetting> getOrdersettingByMonth(Date date);
+
+    Integer findCntByDate(@Param("date") Date date);
+
+    void updateByDate(@Param("date") Date date, @Param("iNum") int iNum);
 }

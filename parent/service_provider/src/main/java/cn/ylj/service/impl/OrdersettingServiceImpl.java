@@ -34,5 +34,21 @@ public class OrdersettingServiceImpl implements IOrdersettingService {
         return ordersettingMapper.getOrdersettingByMonth(date);
     }
 
+    @Override
+    public void insertOrder(Date date, int iNum) {
+        //查询当前是否已经有预约，有则覆盖
+        Integer cnt = ordersettingMapper.findCntByDate(date);
+        if (cnt > 0){
+            //覆盖
+            ordersettingMapper.updateByDate(date, iNum);
+        } else {
+            //插入
+            Ordersetting os = new Ordersetting();
+            os.setNumber(iNum);
+            os.setReservations(0);
+            os.setOrderdate(date);
+            ordersettingMapper.insert(os);
+        }
+    }
 
 }
