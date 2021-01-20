@@ -6,7 +6,6 @@ import cn.ylj.model.Result;
 import cn.ylj.service.IOrdersettingService;
 import cn.ylj.utils.POIUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +27,17 @@ public class OrderSettingController {
 
     @Reference
     private IOrdersettingService ordersettingService;
+
+    @RequestMapping("/getOrdersettingByMonth")
+    public Result getOrdersettingByMonth(@RequestParam("date") Date date){
+        try {
+            List<Ordersetting> list = ordersettingService.getOrdersettingByMonth(date);
+            return new Result(true, MessageConstant.GET_ORDERSETTING_SUCCESS, list);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_ORDERSETTING_FAIL);
+        }
+    }
 
     @RequestMapping("/upload")
     public Result uploadExcel(@RequestParam("excelFile") MultipartFile excelFile){

@@ -6,10 +6,8 @@ import cn.ylj.service.IOrdersettingService;
 import com.alibaba.dubbo.config.annotation.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author : yanglujian
@@ -29,6 +27,11 @@ public class OrdersettingServiceImpl implements IOrdersettingService {
 
         //用mysql 唯一约束 避免对同一天进行两次预约设置。
         ordersettingMapper.insertOrdersettingList(list);
+    }
+
+    @Override
+    public List<Ordersetting> getOrdersettingByMonth(Date date) {
+        return ordersettingMapper.getOrdersettingByMonth(date);
     }
 
 

@@ -3,6 +3,7 @@ package cn.ylj.mapper;
 import cn.ylj.entity.Ordersetting;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,4 +23,6 @@ public interface OrdersettingMapper {
     void insertList(@Param("list") List<Map> list);
 
     void insertOrdersettingList(@Param("list") List<Ordersetting> list);
+
+    List<Ordersetting> getOrdersettingByMonth(Date date);
 }

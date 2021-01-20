@@ -1,5 +1,7 @@
 package cn.ylj.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -19,6 +21,7 @@ public class Ordersetting implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value="约预日期")
+    @JSONField(name="date",format = "dd")
     private Date orderdate;
 
     @ApiModelProperty(value="可预约人数")
