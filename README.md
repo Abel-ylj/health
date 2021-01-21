@@ -62,7 +62,7 @@
 
 
 
-#### 检查项-检查组-套餐
+#### 后台检查项-检查组-套餐
 
 - 预约管理模块
 
@@ -173,4 +173,92 @@
     2. 在预约设置页下载 excel的模板文件。(约定格式)
     3. 在模板文件中 填写完数据后 上传，后台程序自动解析，完成数据导入
     4. H5页面用calender控件 将预约列表展示给用户
+
+#### 前台手机快速登录
+
+- 业务流程
+
+    手机获取验证码，后端校验验证码后，查询手机用户是否存在，
+
+    若不存在就 自动注册，返回token(此处用的是用户手机号，应该用随机数，防止被猜测)，
+
+    将用户对象存到redis
+
+#### 前台手机端预约套餐
+
+- 用户在套餐列表页面选择套餐
+- 进入选择的套餐详情页，将1.预约信息(个人信息) 2.预约信息(选择的套餐) 3. 预约日期提交
+- 后端需要校验
+    1. 用户是否已经注册(自动注册)
+    2. 用户是否已经在 预约日当天预约过该套餐(防抖，发送两次)
+    3. 体检机构在当日的预约数量是否已经到达限额值。
+- 校验通过，将预约信息记录，同时将预约数量调整
+- 返回前端预约成功，前端页面跳转到预约成功页面，同时查询刚才的预约详情记录
+
+#### **后台管理系统权限控制**
+
+- 权限部分是该工程的重点
+
+- 重要概念
+
+    1. 认证：让系统知道你是谁
+    2. 授权： 系统赋予你能看到什么，操作什么。
+
+- wb模板工程的做法
+
+    Privilidge ->Role -> Account
+
+    权限是指后台管理系统的左侧菜单栏。菜单栏中的每一项都对应Privilidge表中的一行记录。
+
+    且记录之前有父子关系(parentId指定)
+
+    添加角色时，前端将{role, [p1,p2,p3,p4]}传入(p1,p2,p3,p4)，
+
+    P1,p2,p3,p4由前端从后端查，树结构由前端自己构造，或后端构造
+
+    ```java
+    //构建权限树
+    public List<AdminPrivilegeEntity> getTree() {
+            List<AdminPrivilegeEntity> all = adminPrivilegeMapper.getAll();
+            List<AdminPrivilegeEntity> rlst = new ArrayList<>();
+            if (all != null && all.size() > 0){
+                HashMap<Long, AdminPrivilegeEntity> map = new HashMap<>();
+                for (AdminPrivilegeEntity p : all) {
+                    if (p.getParentId() == 0){
+                        rlst.add(p);
+                    }
+                    AdminPrivilegeEntity pv = map.get(p.getId());
+                    if (pv != null){
+                        p.setChildren(pv.getChildren());
+                    }
+                    map.put(p.getId(), p);
+                    AdminPrivilegeEntity parent = map.computeIfAbsent(p.getParentId(), o -> new AdminPrivilegeEntity());
+                    parent.getChildren().add(p);
+                }
+            }
+            return rlst;
+        }
+    
+    //sql 数据结构
+    1	会员管理	/vip	0
+    2	会员列表	/vip_list	1
+    3	邀请关系	/vip_invite	1
+    4	平台数据	/vip_data	1
+    
+    平台数据菜单的访问路径 是 项目路径/vip/vip_data
+    ```
+
+- health中权限表的逻辑结构
+
+    在wb的模板工程中，没有实现role->permisson的权限部分，只实现了role-menu的部分
+    
+    ![image-20210121122229957](https://yljnote.oss-cn-hangzhou.aliyuncs.com/2021-01-21-043629.jpg)
+
+- SpringSecurity
+    1. 使用见demo工程
+- 
+
+
+
+
 

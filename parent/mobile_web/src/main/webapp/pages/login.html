@@ -67,6 +67,7 @@
                         this.$message.error('请输入正确的手机号');
                         return false;
                     }
+                    //30秒倒计时模块 组件初始化赋值
                     validateCodeButton = $("#validateCodeButton")[0];
                     clock = window.setInterval(doLoop, 1000); //一秒执行一次
                     axios.post("/validateCode/send4Login.do?telephone=" + telephone).then((response) => {

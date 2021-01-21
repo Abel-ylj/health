@@ -22,6 +22,13 @@ public class ValidateCodeController {
     @Resource
     private JedisPool jedisPool;
 
+    //手机快速登录验证码
+    @RequestMapping("/send4Login")
+    public Result send4Login(@RequestParam("tel") String tel){
+        return null;
+    }
+
+    //预约验证码
     @RequestMapping("/sendCode")
     public Result sendCode(@RequestParam("tel") String tel){
         Integer code = RadomCodeUtils.generateValidateCode(6);
