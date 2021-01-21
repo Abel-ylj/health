@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -38,5 +40,10 @@ public class User implements Serializable {
 
     @ApiModelProperty(value="")
     private String telephone;
+
+    //用户可见的菜单列表
+    private List<Menu> menuList;
+    //用户拥有的角色列表
+    private List<Role> roleList;
 
 }

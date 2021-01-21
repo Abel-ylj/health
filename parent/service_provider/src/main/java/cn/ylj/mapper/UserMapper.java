@@ -1,6 +1,7 @@
 package cn.ylj.mapper;
 
 import cn.ylj.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User findOneByUsername(@Param("name") String name);
 }

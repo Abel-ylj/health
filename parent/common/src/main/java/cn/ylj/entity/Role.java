@@ -3,6 +3,8 @@ package cn.ylj.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -25,5 +27,8 @@ public class Role implements Serializable {
 
     @ApiModelProperty(value="描述")
     private String description;
+
+    //角色拥有的权限列表
+    private List<Permission> permissionList;
 
 }

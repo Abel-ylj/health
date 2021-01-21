@@ -74,4 +74,12 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+    <select id="findPermissionsByRid" resultType="cn.ylj.entity.Permission">
+      select p.*
+      from t_role_permission rp, t_permission p
+      where rp.permission_id = p.id
+      and rp.role_id = #{rId,jdbcType=INTEGER}
+    </select>
 </mapper>

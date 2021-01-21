@@ -120,4 +120,31 @@
       telephone = #{telephone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <resultMap id="findOneByUsernameMap" type="cn.ylj.entity.User" extends="BaseResultMap">
+    <collection property="roleList" ofType="cn.ylj.entity.Role">
+      <id column="rid" property="id"></id>
+      <result column="rname" property="name"></result>
+      <result column="rkeyword" property="keyword"></result>
+      <result column="rdescription" property="description"></result>
+      <collection property="permissionList"
+                  ofType="cn.ylj.entity.Permission"
+                  column="rid"
+                  select="cn.ylj.mapper.RoleMapper.findPermissionsByRid"></collection>
+    </collection>
+  </resultMap>
+
+  <select id="findOneByUsername" resultMap="findOneByUsernameMap">
+    select
+    u.*,
+    ur.*,
+    r.id as rid,
+    r.name as rname,
+    r.keyword as rkeyword,
+    r.description as rdescription
+    from t_user u, t_user_role ur, t_role r
+    where ur.user_id = u.id and ur.role_id = r.id
+    and u.username = #{name}
+    </select>
 </mapper>
