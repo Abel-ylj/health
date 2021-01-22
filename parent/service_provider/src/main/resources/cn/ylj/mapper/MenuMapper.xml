@@ -131,4 +131,18 @@
       `level` = #{level,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="findMenusByRoles" resultMap="BaseResultMap">
+      select
+      *
+      from t_role_menu rm, t_menu m
+      where rm.menu_id = m.id
+      and role_id in
+      <foreach collection="roles" item="role" open="(" close=")" separator=",">
+            #{role.id}
+      </foreach>
+    </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from t_menu
+    order by level,priority asc
+  </select>
 </mapper>

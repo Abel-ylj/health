@@ -82,4 +82,9 @@
       where rp.permission_id = p.id
       and rp.role_id = #{rId,jdbcType=INTEGER}
     </select>
+    <select id="findRolesByUsername" resultMap="BaseResultMap">
+      select * from t_user u, t_user_role ur
+      where u.id = ur.user_id
+      and u.username = #{username}
+    </select>
 </mapper>

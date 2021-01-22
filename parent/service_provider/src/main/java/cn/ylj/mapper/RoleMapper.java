@@ -21,4 +21,6 @@ public interface RoleMapper {
 
     //根据角色Id获取隶属的所有权限
     List<Permission> findPermissionsByRid(@Param("rId") Integer rId);
+
+    List<Role> findRolesByUsername(@Param("username") String username);
 }

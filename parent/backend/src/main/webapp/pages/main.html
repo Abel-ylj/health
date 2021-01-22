@@ -65,9 +65,11 @@
             <el-container>
             <!--    左侧边栏(菜单栏)     -->
                 <el-aside width="200px">
+
+<!--    重点： 菜单列表开始             -->
                     <el-menu>
                         <el-submenu v-for="menu in menuList" :index="menu.path">
-                            <template slot="title">
+                            <template v-if="menu.valid" slot="title">
                                 <i class="fa" :class="menu.icon"></i>
                                 {{menu.title}}
                             </template>
@@ -79,6 +81,8 @@
                         </el-submenu>
                     </el-menu>
                 </el-aside>
+<!--    重点： 菜单列表结束            -->
+
                 <!--     右侧容器       -->
                 <el-container>
                     <!--     预约设置html     -->
@@ -98,8 +102,10 @@
         data:{
             username: '',
             avatar: '../img/user.png',
+
+            //菜单数据集合
             menuList:[
-                {
+               /* {
                     "path": "1",
                     "title": "工作台",
                     "icon":"fa-dashboard",
@@ -191,7 +197,7 @@
                             "children":[]
                         }
                     ]
-                }
+                }*/
             ]
         },
         created() {
@@ -209,6 +215,18 @@
                         _this.avatar = '../img/user.png';
                     }
                 });
+        },
+        mounted(){
+            var _this = this;
+            axios.post("/menu/list.do")
+            .then(res => {
+                if (res.data.flag){
+                    _this.menuList = res.data.data;
+                    _this.$message.success(res.data.message);
+                } else {
+                    _this.$message.error(res.data.message);
+                }
+            })
         },
         methods:{
 
