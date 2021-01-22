@@ -12,11 +12,14 @@
         <link rel="stylesheet" href="plugins/elementui/index.css">
         <link rel="stylesheet" href="css/login.css">
     </head>
+
     <body class="hold-transition skin-purple sidebar-mini">
         <div id="app">
             <div class="login-container">
                 <div class="loginBox">
-                  <form method="post" class="login-form" action="/login.do" label-position="left">
+
+<!--    和SpringSecurity交互的表单 /login.do 映射的是springSecurity中的一个处理器           -->
+               <form method="post" class="login-form" action="/login.do" label-position="left">
                       <div class="title-container">
                         <div class="logoInfo clearfix">
                           <em class="logo"></em>
@@ -36,6 +39,7 @@
                       </div>
                       <input type="submit" style="width:100%;margin-bottom:30px;" value="登录"></input>
                 </form>
+
                 </div>
               </div>
         </div>

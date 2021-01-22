@@ -376,7 +376,10 @@
                                 //刷新页面
                                 this.findPage();
                             }
-                        )
+                        ).catch((err)=>{
+                            console.log(err.response.status);
+                            _this.$message.error("没有权限" + err.response.status)
+                        })
                     }).catch(() => {
                         this.$message({
                             type: 'info',

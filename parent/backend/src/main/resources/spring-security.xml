@@ -32,6 +32,7 @@
             <!--设置在页面可以通过iframe访问受保护的页面，默认为不允许访问-->
             <security:frame-options policy="SAMEORIGIN"></security:frame-options>
         </security:headers>
+
         <!--配置拦截规则，/** 表示拦截所有请求-->
         <security:intercept-url pattern="/pages/**"  access="isAuthenticated()" />
 

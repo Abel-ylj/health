@@ -7,12 +7,14 @@ import cn.ylj.model.QueryPageBean;
 import cn.ylj.model.Result;
 import cn.ylj.service.ICheckItemService;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : yanglujian
  * create at:  2021/1/15  10:19 下午
  */
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/checkitem")
 public class CheckitemController {
@@ -31,6 +33,7 @@ public class CheckitemController {
         return new Result(true, MessageConstant.ADD_CHECKGROUP_SUCCESS);
     }
 
+    @PreAuthorize("hasAuthority('CHECKITEM_DELETE')")
     @RequestMapping("/{itemId}/delete")
     public Result delete(@PathVariable("itemId")Integer itemId){
         try{
@@ -41,6 +44,7 @@ public class CheckitemController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/update")
     public Result update(@RequestBody Checkitem checkitem){
         try{
