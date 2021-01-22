@@ -157,7 +157,7 @@
 
     同时，https://tool.lu/crontab/ 也支持 linux cron和 spring cron的表达式
 
-#### POI & 日历组件
+#### POI导入 & 日历组件
 
 - 业务: 导医处用excel 登记用户的预约信息，然后将其导入到管理系统中
 
@@ -264,7 +264,36 @@
 - 根据用户的角色 动态查找菜单栏，完成菜单树的构造，返给前端
 - 菜单树的构造，借用一个map集合，达到遍历一遍就构造完整棵树的效果。
 
-#### 统计数据POI导出
+#### POI导出（统计数据）
+
+1. 获取模板.xlsx 在服务器的绝对路径，读取流创建工作簿对象XSSFWorkbook
+2. 根据row，cell坐标对单元格进行定位，然后写值
+3. 将XSSFWorkbook对象输出到 response的输出流中
+
+重点API
+
+```java
+//1. 获取服务器文件绝对路径
+request.getSession().getServletContext().getRealPath("template")
+  
+//2. 从流中创建工作簿对象
+XSSFWorkbook excel = new XSSFWorkbook(new FileInputStream(new File(filePath)));
+
+//3. 从工作簿对象中获取工作表对象
+XSSFSheet sheet = excel.getSheetAt(0);
+
+//4. 用row，cell的坐标来定位
+XSSFRow row = sheet.getRow(2);
+row.getCell(5).setCellValue(reportDate);//日期
+
+//5. 设置响应体的头信息，说明文件类型
+response.setContentType("application/vnd.ms-excel");//代表的是Excel文件类型
+response.setHeader("content-Disposition", "attachment;filename=report.xlsx");//指定以附件形式进行下载
+
+//6. 将工作簿输出到 响应流
+excel.write(request.getOutputStream());
+
+```
 
 
 
